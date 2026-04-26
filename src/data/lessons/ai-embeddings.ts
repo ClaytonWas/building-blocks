@@ -4,7 +4,7 @@ export const aiEmbeddings: Lesson = {
   id: "ai-embeddings",
   trackId: "ai",
   title: "Embeddings — Words as Numbers",
-  level: 2,
+  level: 3,
   intro:
     "Computers don't understand words. They only understand numbers. So how does an AI know that 'cat' and 'dog' mean similar things? It turns words into points in space.",
   concept: `Imagine a giant map. Every word in the dictionary lives somewhere on that map. Words with similar meanings sit close to each other.

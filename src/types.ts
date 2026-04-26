@@ -40,11 +40,17 @@ export type PlaygroundKind =
   | { kind: "css" }
   | { kind: "domEvent" }
   | { kind: "tokenizer"; initial?: string }
-  | { kind: "type" }
+  | { kind: "type"; language: "js" | "python" }
   | { kind: "loop"; language: "js" | "python" }
   | { kind: "function" }
   | { kind: "form" }
-  | { kind: "embedding" };
+  | { kind: "embedding" }
+  | { kind: "ifelse"; language: "js" | "python" }
+  | { kind: "hover" }
+  | { kind: "sampling" }
+  | { kind: "neuron" }
+  | { kind: "mininet" }
+  | { kind: "liveClassifier" };
 
 export interface Lesson {
   id: string;

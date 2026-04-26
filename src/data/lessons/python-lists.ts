@@ -4,7 +4,7 @@ export const pythonLists: Lesson = {
   id: "python-lists",
   trackId: "python",
   title: "Lists — Stacks of Things",
-  level: 2,
+  level: 4,
   intro:
     "A list in Python is a row of things in order. You can grab any one, add new ones, sort them, or count them.",
   concept: `Here is a Python list:

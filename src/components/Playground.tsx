@@ -10,6 +10,12 @@ import { LoopPlayground } from "./LoopPlayground";
 import { FunctionPlayground } from "./FunctionPlayground";
 import { FormPlayground } from "./FormPlayground";
 import { EmbeddingPlayground } from "./EmbeddingPlayground";
+import { IfPlayground } from "./IfPlayground";
+import { HoverPlayground } from "./HoverPlayground";
+import { SamplingPlayground } from "./SamplingPlayground";
+import { NeuronPlayground } from "./NeuronPlayground";
+import { MiniNetworkPlayground } from "./MiniNetworkPlayground";
+import { LiveImageClassifierPlayground } from "./LiveImageClassifierPlayground";
 
 interface Props {
   spec: PlaygroundKind;
@@ -30,7 +36,7 @@ export function Playground({ spec }: Props) {
     case "tokenizer":
       return <TokenizerPlayground initial={spec.initial} />;
     case "type":
-      return <TypePlayground />;
+      return <TypePlayground language={spec.language} />;
     case "loop":
       return <LoopPlayground language={spec.language} />;
     case "function":
@@ -39,5 +45,17 @@ export function Playground({ spec }: Props) {
       return <FormPlayground />;
     case "embedding":
       return <EmbeddingPlayground />;
+    case "ifelse":
+      return <IfPlayground language={spec.language} />;
+    case "hover":
+      return <HoverPlayground />;
+    case "sampling":
+      return <SamplingPlayground />;
+    case "neuron":
+      return <NeuronPlayground />;
+    case "mininet":
+      return <MiniNetworkPlayground />;
+    case "liveClassifier":
+      return <LiveImageClassifierPlayground />;
   }
 }

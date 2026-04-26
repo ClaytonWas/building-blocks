@@ -4,7 +4,7 @@ export const jsObjects: Lesson = {
   id: "js-objects",
   trackId: "js",
   title: "Objects — Labeled Boxes",
-  level: 5,
+  level: 7,
   intro:
     "An array is a list. An object is a labeled box. Instead of position numbers, each value has a name (called a key).",
   concept: `Here is an object:

@@ -4,7 +4,7 @@ export const pythonStrings: Lesson = {
   id: "python-strings",
   trackId: "python",
   title: "Strings in Python",
-  level: 1,
+  level: 2,
   intro: "Python loves words. A string in Python is text inside quotes — and Python gives you tons of methods to play with it.",
   concept: `Here is a Python string:
 

@@ -91,7 +91,7 @@ console.log(greeting);
       }
     }
   ],
-  playground: { kind: "type" },
+  playground: { kind: "type", language: "js" },
   exercise: {
     prompt:
       "Make four variables: one number, one string, one boolean, and one array of your favorite three colors. Print each one along with its type.",

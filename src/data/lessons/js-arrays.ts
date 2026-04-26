@@ -4,7 +4,7 @@ export const jsArrays: Lesson = {
   id: "js-arrays",
   trackId: "js",
   title: "Arrays — Lists of Things",
-  level: 3,
+  level: 5,
   intro:
     "An array is a list of things in a specific order. You can add, remove, count, and transform the things inside.",
   concept: `Here is an array:
