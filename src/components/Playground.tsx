@@ -10,11 +10,11 @@ import { LoopPlayground } from "./LoopPlayground";
 import { FunctionPlayground } from "./FunctionPlayground";
 import { FormPlayground } from "./FormPlayground";
 import { EmbeddingPlayground } from "./EmbeddingPlayground";
-import { IfPlayground } from "./IfPlayground";
 import { HoverPlayground } from "./HoverPlayground";
-import { SamplingPlayground } from "./SamplingPlayground";
+import { IfPlayground } from "./IfPlayground";
 import { NeuronPlayground } from "./NeuronPlayground";
 import { MiniNetworkPlayground } from "./MiniNetworkPlayground";
+import { SamplingPlayground } from "./SamplingPlayground";
 import { LiveImageClassifierPlayground } from "./LiveImageClassifierPlayground";
 
 interface Props {
@@ -45,16 +45,16 @@ export function Playground({ spec }: Props) {
       return <FormPlayground />;
     case "embedding":
       return <EmbeddingPlayground />;
-    case "ifelse":
-      return <IfPlayground language={spec.language} />;
     case "hover":
       return <HoverPlayground />;
-    case "sampling":
-      return <SamplingPlayground />;
+    case "ifelse":
+      return <IfPlayground language={spec.language} />;
     case "neuron":
       return <NeuronPlayground />;
     case "mininet":
       return <MiniNetworkPlayground />;
+    case "sampling":
+      return <SamplingPlayground />;
     case "liveClassifier":
       return <LiveImageClassifierPlayground />;
   }

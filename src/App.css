@@ -298,6 +298,462 @@ main {
 }
 
 /* =================================================================
+   Track preview (live preview shown above lessons list)
+   ================================================================= */
+
+.track-preview-wrap {
+  max-width: var(--w-content);
+  margin: 0 auto var(--s-6);
+  padding: 0 var(--s-5);
+}
+
+.track-preview {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: var(--s-4) var(--s-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+
+.track-preview-label {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 600;
+}
+
+.track-preview-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+
+.tp-frame {
+  width: 100%;
+  height: 240px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  display: block;
+  background: #fff;
+}
+
+.tp-frame-tall {
+  height: 290px;
+}
+
+/* CSS preview */
+.tp-css-stage {
+  background: repeating-conic-gradient(#f4f3ec 0 25%, #fafaf7 0 50%) 0 0/16px 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  min-height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--s-4);
+}
+
+.tp-css-chip {
+  display: inline-block;
+  transition: background 280ms ease, color 280ms ease,
+    border-radius 280ms ease, padding 280ms ease, font-size 280ms ease,
+    font-weight 280ms ease, box-shadow 280ms ease;
+}
+
+.tp-css-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.tp-dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border-radius: 50%;
+  border: 0;
+  background: var(--line-strong);
+  cursor: pointer;
+  transition: background 200ms;
+}
+
+.tp-dot.on {
+  background: var(--accent);
+}
+
+/* JS preview */
+.tp-js-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: var(--s-3);
+}
+
+@media (max-width: 640px) {
+  .tp-js-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.tp-js-readout {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 4px;
+  background: #fafaf7;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 18px;
+}
+
+.tp-js-readout-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+}
+
+.tp-js-readout-value {
+  font-family: var(--mono);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--ink-1);
+  font-variant-numeric: tabular-nums;
+}
+
+.tp-js-button {
+  appearance: none;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  background: var(--accent);
+  color: #fff;
+  border: 0;
+  border-radius: 10px;
+  padding: 0 18px;
+  cursor: pointer;
+  transition: background 120ms;
+}
+
+.tp-js-button:hover {
+  background: var(--accent-ink);
+}
+
+.tp-js-button strong {
+  font-family: var(--mono);
+  font-weight: 700;
+}
+
+.tp-js-code {
+  grid-column: 1 / -1;
+  margin: 0;
+  background: var(--code-bg);
+  color: var(--code-ink);
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.55;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+/* Python preview */
+.tp-py-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-3);
+}
+
+@media (max-width: 640px) {
+  .tp-py-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.tp-py-code {
+  margin: 0;
+  background: var(--code-bg);
+  color: var(--code-ink);
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.55;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+.tp-py-console {
+  background: var(--code-bg);
+  border-radius: 8px;
+  padding: 8px 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 180px;
+}
+
+.tp-py-console-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--code-muted);
+}
+
+.tp-py-console-body {
+  flex: 1 1 auto;
+  font-family: var(--mono);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--code-ink);
+}
+
+.tp-py-line {
+  white-space: pre;
+}
+
+.tp-py-cursor {
+  color: var(--code-muted);
+  animation: tp-blink 900ms steps(2, start) infinite;
+}
+
+@keyframes tp-blink {
+  to { visibility: hidden; }
+}
+
+/* AI preview — small ConvNet with visible activations */
+.tp-cnn {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: var(--s-3);
+  padding: var(--s-4);
+  background: #fafaf7;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.tp-cnn-stage {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px 12px;
+}
+
+.tp-cnn-stage-output {
+  flex: 1 1 180px;
+  align-items: stretch;
+}
+
+.tp-cnn-arrow {
+  align-self: center;
+  font-size: 18px;
+  color: var(--ink-3);
+  user-select: none;
+}
+
+@media (max-width: 760px) {
+  .tp-cnn-arrow {
+    display: none;
+  }
+  .tp-cnn-stage {
+    flex: 1 1 100%;
+  }
+}
+
+.tp-cnn-stage-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+}
+
+.tp-cnn-stage-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--ink-1);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.tp-cnn-stage-shape {
+  margin-left: auto;
+  color: var(--ink-3);
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+/* Input grid */
+.tp-cnn-input {
+  display: grid;
+  grid-template-columns: repeat(10, 16px);
+  grid-template-rows: repeat(10, 16px);
+  gap: 1px;
+  padding: 3px;
+  background: var(--ink-1);
+  border-radius: 6px;
+}
+
+.tp-cnn-pixel {
+  background: #fafaf7;
+  border: 0;
+  border-radius: 2px;
+  cursor: pointer;
+  padding: 0;
+  transition: background 80ms;
+}
+
+.tp-cnn-pixel:hover {
+  background: #e6e6e1;
+}
+
+.tp-cnn-pixel.on {
+  background: var(--accent);
+}
+
+.tp-cnn-presets {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.tp-cnn-presets .chip {
+  padding: 3px 10px;
+  font-size: 12px;
+}
+
+/* Feature maps */
+.tp-cnn-feature-row {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 8px;
+  justify-content: center;
+}
+
+.tp-cnn-feature {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  transition: opacity 200ms;
+}
+
+.tp-cnn-feature-grid {
+  display: grid;
+  width: 64px;
+  height: 64px;
+  background: #1d1b2e;
+  padding: 2px;
+  border-radius: 4px;
+  gap: 1px;
+}
+
+.tp-cnn-feature-cell {
+  background: rgba(106, 92, 255, 0);
+  border-radius: 1px;
+  transition: background 180ms;
+}
+
+.tp-cnn-feature-name {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink-2);
+  line-height: 1;
+}
+
+/* Output stage */
+.tp-cnn-guess {
+  font-family: var(--mono);
+  font-size: 44px;
+  font-weight: 800;
+  text-align: center;
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  border: 2px solid var(--accent);
+  border-radius: 10px;
+  padding: 8px 0;
+  line-height: 1;
+}
+
+.tp-cnn-guess-empty {
+  background: #fafaf7;
+  color: var(--ink-3);
+  border-color: var(--line);
+}
+
+.tp-cnn-probs {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tp-cnn-prob-row {
+  display: grid;
+  grid-template-columns: 18px 1fr 38px;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-3);
+  transition: color 200ms;
+}
+
+.tp-cnn-prob-row.top {
+  color: var(--ink-1);
+}
+
+.tp-cnn-prob-name {
+  font-weight: 700;
+}
+
+.tp-cnn-prob-track {
+  background: var(--line);
+  height: 8px;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.tp-cnn-prob-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--line-strong);
+  transition: width 200ms, background 200ms;
+}
+
+.tp-cnn-prob-row.top .tp-cnn-prob-fill {
+  background: var(--accent);
+}
+
+.tp-cnn-prob-pct {
+  text-align: right;
+}
+
+/* =================================================================
    Lesson page
    ================================================================= */
 

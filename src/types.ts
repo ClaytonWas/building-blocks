@@ -45,11 +45,11 @@ export type PlaygroundKind =
   | { kind: "function" }
   | { kind: "form" }
   | { kind: "embedding" }
-  | { kind: "ifelse"; language: "js" | "python" }
   | { kind: "hover" }
-  | { kind: "sampling" }
+  | { kind: "ifelse"; language: "js" | "python" }
   | { kind: "neuron" }
   | { kind: "mininet" }
+  | { kind: "sampling" }
   | { kind: "liveClassifier" };
 
 export interface Lesson {

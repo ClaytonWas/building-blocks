@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { findTrack } from "../data/curriculum";
 import { useProgress } from "../hooks/useProgress";
+import { TrackPreview } from "../components/TrackPreview";
 
 export function Track() {
   const { trackId = "" } = useParams();
@@ -28,6 +29,10 @@ export function Track() {
         <h1>{track.title}</h1>
         <p>{track.blurb}</p>
       </header>
+
+      <div className="track-preview-wrap">
+        <TrackPreview trackId={track.id} />
+      </div>
 
       <div className="lesson-list">
         <ol>
