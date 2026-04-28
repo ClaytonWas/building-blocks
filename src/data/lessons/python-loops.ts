@@ -4,7 +4,7 @@ export const pythonLoops: Lesson = {
   id: "python-loops",
   trackId: "python",
   title: "Loops — Do It Again",
-  level: 3,
+  level: 5,
   intro:
     "Loops let Python repeat the same code many times without copy-pasting. Two flavors cover almost everything you'll do.",
   concept: `**For loop with range** — count from one number to another:

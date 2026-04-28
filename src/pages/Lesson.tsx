@@ -66,7 +66,8 @@ export function Lesson() {
 
   const completed = isCompleted(trackId, lessonId);
   const trackStyle = { "--track-color": track.color } as CSSProperties;
-  const hasJs = track.fileTypes.includes("js");
+  const fileTypes = lesson.fileTypes ?? track.fileTypes;
+  const hasJs = fileTypes.includes("js");
 
   return (
     <article className="lesson-page" style={trackStyle}>
@@ -153,7 +154,7 @@ export function Lesson() {
         <div className="workspace-split">
           <div className="workspace-pane workspace-editor">
             <TabbedEditor
-              fileTypes={track.fileTypes}
+              fileTypes={fileTypes}
               files={files}
               onChange={handleFileChange}
             />

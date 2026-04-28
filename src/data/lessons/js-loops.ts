@@ -4,7 +4,7 @@ export const jsLoops: Lesson = {
   id: "js-loops",
   trackId: "js",
   title: "Loops — Do It Again",
-  level: 4,
+  level: 6,
   intro:
     "Loops are how a computer does the same thing over and over without copy-pasting. There are three flavors you'll meet first.",
   concept: `If you wanted to print "hi" five times, you *could* type \`console.log("hi")\` five times. But that's tedious. A **loop** does it for you.

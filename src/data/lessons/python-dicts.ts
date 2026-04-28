@@ -4,7 +4,7 @@ export const pythonDicts: Lesson = {
   id: "python-dicts",
   trackId: "python",
   title: "Dictionaries — Labels and Values",
-  level: 4,
+  level: 6,
   intro:
     "A dictionary in Python pairs labels with values. Like a real dictionary: each word (key) has a meaning (value).",
   concept: `Here is a dictionary:

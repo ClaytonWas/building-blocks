@@ -4,7 +4,7 @@ export const jsFunctions: Lesson = {
   id: "js-functions",
   trackId: "js",
   title: "Functions — Reusable Code",
-  level: 6,
+  level: 8,
   intro:
     "A function is a chunk of code with a name. You write it once and *call* it as many times as you want, with different inputs.",
   concept: `Here's the shape of a function:
