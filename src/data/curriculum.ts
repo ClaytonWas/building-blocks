@@ -27,6 +27,7 @@ import { jsDomQuery } from "./lessons/js-dom-query";
 import { jsDomEvents } from "./lessons/js-dom-events";
 import { webCombined } from "./lessons/web-combined";
 import { webComponents } from "./lessons/web-components";
+import { webDynamicTable } from "./lessons/web-dynamic-table";
 import { pythonVariables } from "./lessons/python-variables";
 import { pythonStrings } from "./lessons/python-strings";
 import { pythonIf } from "./lessons/python-if";
@@ -103,7 +104,7 @@ export const tracks: Track[] = [
     color: "#69db7c",
     runtime: "web",
     fileTypes: ["html", "css", "js"],
-    lessons: [webCombined, webComponents]
+    lessons: [webCombined, webComponents, webDynamicTable]
   },
   {
     id: "python",

@@ -59,6 +59,7 @@ export function Lesson() {
     const merged = { ...files, ...exampleFiles };
     setFiles(merged);
     saveDraft(trackId, lessonId, merged);
+    setRunKey((k) => k + 1);
     document
       .getElementById("workspace")
       ?.scrollIntoView({ behavior: "smooth", block: "start" });
