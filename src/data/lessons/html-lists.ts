@@ -4,7 +4,7 @@ export const htmlLists: Lesson = {
   id: "html-lists",
   trackId: "html",
   title: "Lists and Links",
-  level: 3,
+  level: 8,
   intro:
     "Lists let you stack items on top of each other. Links let you jump from page to page. Together they're how every website is organized.",
   concept: `A **list** is a group of items. HTML has two main kinds:

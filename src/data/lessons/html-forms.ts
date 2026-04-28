@@ -4,7 +4,7 @@ export const htmlForms: Lesson = {
   id: "html-forms",
   trackId: "html",
   title: "Forms and Inputs",
-  level: 4,
+  level: 11,
   intro:
     "Forms are how a web page asks a user for information. They're made of inputs — text boxes, dropdowns, sliders, checkboxes — wrapped in a form tag.",
   concept: `A form starts with the \`<form>\` tag and contains one or more **inputs**.

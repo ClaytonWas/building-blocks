@@ -1,9 +1,18 @@
 import type { Track } from "../types";
 import { htmlIntro } from "./lessons/html-intro";
+import { htmlNesting } from "./lessons/html-nesting";
+import { htmlAttributes } from "./lessons/html-attributes";
+import { htmlLinks } from "./lessons/html-links";
+import { htmlTextFormatting } from "./lessons/html-text-formatting";
 import { htmlImages } from "./lessons/html-images";
+import { htmlVideos } from "./lessons/html-videos";
 import { htmlLists } from "./lessons/html-lists";
+import { htmlTables } from "./lessons/html-tables";
+import { htmlDetails } from "./lessons/html-details";
 import { htmlForms } from "./lessons/html-forms";
 import { cssIntro } from "./lessons/css-intro";
+import { cssSelectors } from "./lessons/css-selectors";
+import { cssSpacing } from "./lessons/css-spacing";
 import { cssHover } from "./lessons/css-hover";
 import { cssLayout } from "./lessons/css-layout";
 import { jsVariables } from "./lessons/js-variables";
@@ -14,6 +23,8 @@ import { jsArrays } from "./lessons/js-arrays";
 import { jsLoops } from "./lessons/js-loops";
 import { jsObjects } from "./lessons/js-objects";
 import { jsFunctions } from "./lessons/js-functions";
+import { jsDomQuery } from "./lessons/js-dom-query";
+import { jsDomEvents } from "./lessons/js-dom-events";
 import { webCombined } from "./lessons/web-combined";
 import { webComponents } from "./lessons/web-components";
 import { pythonVariables } from "./lessons/python-variables";
@@ -39,7 +50,19 @@ export const tracks: Track[] = [
     color: "#ff7a59",
     runtime: "web",
     fileTypes: ["html"],
-    lessons: [htmlIntro, htmlImages, htmlLists, htmlForms]
+    lessons: [
+      htmlIntro,
+      htmlNesting,
+      htmlAttributes,
+      htmlLinks,
+      htmlTextFormatting,
+      htmlImages,
+      htmlVideos,
+      htmlLists,
+      htmlTables,
+      htmlDetails,
+      htmlForms
+    ]
   },
   {
     id: "css",
@@ -49,7 +72,7 @@ export const tracks: Track[] = [
     color: "#4dabf7",
     runtime: "web",
     fileTypes: ["html", "css"],
-    lessons: [cssIntro, cssHover, cssLayout]
+    lessons: [cssIntro, cssSelectors, cssSpacing, cssHover, cssLayout]
   },
   {
     id: "js",
@@ -67,7 +90,9 @@ export const tracks: Track[] = [
       jsArrays,
       jsLoops,
       jsObjects,
-      jsFunctions
+      jsFunctions,
+      jsDomQuery,
+      jsDomEvents
     ]
   },
   {

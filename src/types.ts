@@ -50,7 +50,10 @@ export type PlaygroundKind =
   | { kind: "neuron" }
   | { kind: "mininet" }
   | { kind: "sampling" }
-  | { kind: "liveClassifier" };
+  | { kind: "liveClassifier" }
+  | { kind: "domQuery" }
+  | { kind: "cssSelector" }
+  | { kind: "cssBoxModel" };
 
 export interface Lesson {
   id: string;
@@ -62,6 +65,10 @@ export interface Lesson {
   examples: Example[];
   /** Optional interactive widget shown between examples and the exercise. */
   playground?: PlaygroundKind;
+  /** Per-lesson editor file types. Overrides the track's fileTypes for the
+   *  workspace editor. Useful for JS-track lessons that also need an HTML
+   *  context (e.g. DOM-manipulation lessons). */
+  fileTypes?: FileType[];
   exercise: {
     prompt: string;
     files: LessonFiles;

@@ -4,7 +4,7 @@ export const cssHover: Lesson = {
   id: "css-hover",
   trackId: "css",
   title: "Hover Effects and Transitions",
-  level: 2,
+  level: 4,
   intro:
     "When the mouse moves over an element, you can change how it looks. Add a transition and the change becomes a smooth little animation.",
   concept: `CSS has special **states** you can style. The most common is \`:hover\` — the styles only apply while the mouse is over the element.

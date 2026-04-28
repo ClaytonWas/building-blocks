@@ -4,7 +4,7 @@ export const cssLayout: Lesson = {
   id: "css-layout",
   trackId: "css",
   title: "Boxes and Flexbox",
-  level: 3,
+  level: 5,
   intro:
     "Every element on a page is a box. CSS lets you arrange those boxes in rows, columns, or grids. The easiest tool for that is Flexbox.",
   concept: `Every HTML element is a rectangular **box**. The box has:

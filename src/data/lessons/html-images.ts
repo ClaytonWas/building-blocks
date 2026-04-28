@@ -4,7 +4,7 @@ export const htmlImages: Lesson = {
   id: "html-images",
   trackId: "html",
   title: "Images on a Page",
-  level: 2,
+  level: 6,
   intro:
     "Pictures make a page come alive. The img tag puts an image on the page — and it's a tag with a twist.",
   concept: `An image is added with \`<img>\`. The \`src\` attribute says *where* the image is, and the \`alt\` attribute says *what it shows*:

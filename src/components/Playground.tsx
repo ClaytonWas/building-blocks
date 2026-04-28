@@ -16,6 +16,9 @@ import { NeuronPlayground } from "./NeuronPlayground";
 import { MiniNetworkPlayground } from "./MiniNetworkPlayground";
 import { SamplingPlayground } from "./SamplingPlayground";
 import { LiveImageClassifierPlayground } from "./LiveImageClassifierPlayground";
+import { DomQueryPlayground } from "./DomQueryPlayground";
+import { CssSelectorPlayground } from "./CssSelectorPlayground";
+import { CssBoxModelPlayground } from "./CssBoxModelPlayground";
 
 interface Props {
   spec: PlaygroundKind;
@@ -57,5 +60,11 @@ export function Playground({ spec }: Props) {
       return <SamplingPlayground />;
     case "liveClassifier":
       return <LiveImageClassifierPlayground />;
+    case "domQuery":
+      return <DomQueryPlayground />;
+    case "cssSelector":
+      return <CssSelectorPlayground />;
+    case "cssBoxModel":
+      return <CssBoxModelPlayground />;
   }
 }
