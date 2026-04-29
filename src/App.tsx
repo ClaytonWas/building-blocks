@@ -7,7 +7,7 @@ import "./App.css";
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
       <div className="shell">
         <header className="site-header">
           <div className="site-header-inner">
