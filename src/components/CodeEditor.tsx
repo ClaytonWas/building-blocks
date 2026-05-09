@@ -4,6 +4,7 @@ import { css } from "@codemirror/lang-css";
 import { javascript } from "@codemirror/lang-javascript";
 import { python } from "@codemirror/lang-python";
 import { oneDark } from "@codemirror/theme-one-dark";
+import { EditorView } from "@codemirror/view";
 import type { FileType } from "../types";
 
 interface Props {
@@ -14,16 +15,19 @@ interface Props {
 }
 
 function extensionsFor(fileType: FileType) {
-  switch (fileType) {
-    case "html":
-      return [html()];
-    case "css":
-      return [css()];
-    case "js":
-      return [javascript()];
-    case "python":
-      return [python()];
-  }
+  const lang = (() => {
+    switch (fileType) {
+      case "html":
+        return html();
+      case "css":
+        return css();
+      case "js":
+        return javascript();
+      case "python":
+        return python();
+    }
+  })();
+  return [lang, EditorView.lineWrapping];
 }
 
 export function CodeEditor({ value, onChange, fileType, height = "100%" }: Props) {

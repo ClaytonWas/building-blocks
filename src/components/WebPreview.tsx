@@ -4,6 +4,7 @@ import type { LessonFiles } from "../types";
 interface Props {
   files: LessonFiles;
   hasJs: boolean;
+  hasVisual?: boolean;
   runKey: number;
 }
 
@@ -54,7 +55,7 @@ ${userScript}
 </html>`;
 }
 
-export function WebPreview({ files, hasJs, runKey }: Props) {
+export function WebPreview({ files, hasJs, hasVisual = true, runKey }: Props) {
   // Snapshot files only at runKey changes — preview should not update while typing.
   const [snapshot, setSnapshot] = useState<LessonFiles>(files);
   const filesRef = useRef<LessonFiles>(files);
@@ -80,13 +81,23 @@ export function WebPreview({ files, hasJs, runKey }: Props) {
   }, [snapshot]);
 
   return (
-    <div className="web-preview">
-      <iframe
-        title="preview"
-        srcDoc={srcDoc}
-        sandbox="allow-scripts"
-        className="preview-frame"
-      />
+    <div className={`web-preview ${hasVisual ? "" : "console-only"}`}>
+      {hasVisual ? (
+        <iframe
+          title="preview"
+          srcDoc={srcDoc}
+          sandbox="allow-scripts"
+          className="preview-frame"
+        />
+      ) : (
+        <iframe
+          title="runner"
+          srcDoc={srcDoc}
+          sandbox="allow-scripts"
+          className="preview-frame-hidden"
+          aria-hidden="true"
+        />
+      )}
       {hasJs && (
         <>
           <div className="console-label">Output</div>

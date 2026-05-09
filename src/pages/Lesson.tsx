@@ -6,6 +6,8 @@ import { WebPreview } from "../components/WebPreview";
 import { PythonRunner } from "../components/PythonRunner";
 import { LessonText } from "../components/LessonText";
 import { Playground } from "../components/Playground";
+import { Confetti } from "../components/Confetti";
+import { ExamplePreview } from "../components/ExamplePreview";
 import { useProgress } from "../hooks/useProgress";
 import type { FileType, LessonFiles } from "../types";
 
@@ -21,6 +23,7 @@ export function Lesson() {
   });
   const [runKey, setRunKey] = useState(0);
   const [hintShown, setHintShown] = useState(false);
+  const [celebrating, setCelebrating] = useState(false);
 
   const checkResult = useMemo(() => {
     if (!result) return null;
@@ -54,7 +57,12 @@ export function Lesson() {
     resetDraft(trackId, lessonId);
     setRunKey((k) => k + 1);
   };
-  const finish = () => markCompleted(trackId, lessonId);
+  const finish = () => {
+    if (isCompleted(trackId, lessonId)) return;
+    markCompleted(trackId, lessonId);
+    setCelebrating(true);
+    setTimeout(() => setCelebrating(false), 3500);
+  };
   const loadExample = (exampleFiles: LessonFiles) => {
     const merged = { ...files, ...exampleFiles };
     setFiles(merged);
@@ -69,23 +77,38 @@ export function Lesson() {
   const trackStyle = { "--track-color": track.color } as CSSProperties;
   const fileTypes = lesson.fileTypes ?? track.fileTypes;
   const hasJs = fileTypes.includes("js");
+  const hasVisual = fileTypes.includes("html") || fileTypes.includes("css");
+
+  const totalLessons = track.lessons.length;
+  const progressPct = (lesson.level / totalLessons) * 100;
 
   return (
     <article className="lesson-page" style={trackStyle}>
+      <Confetti active={celebrating} />
+
       <div className="lesson-topbar">
         <Link to={`/track/${track.id}`} className="back-link">
           ← {track.title}
         </Link>
-        <div className="lesson-crumbs">
-          <span className="track-pill">{track.title}</span>
-          <span aria-hidden="true">·</span>
-          <span>Lesson {lesson.level}</span>
-        </div>
       </div>
 
-      <header className="lesson-header">
-        <h1>{lesson.title}</h1>
-        <p className="lesson-intro">{lesson.intro}</p>
+      <header className="lesson-hero">
+        <div className="lesson-hero-emoji" aria-hidden="true">{track.emoji}</div>
+        <div className="lesson-hero-text">
+          <div className="lesson-hero-meta">
+            <span className="lesson-hero-tag">{track.title}</span>
+            <span aria-hidden="true">·</span>
+            <span>Lesson {lesson.level} of {totalLessons}</span>
+          </div>
+          <h1>{lesson.title}</h1>
+          <p className="lesson-intro">{lesson.intro}</p>
+        </div>
+        <div className="lesson-hero-progress" aria-hidden="true">
+          <div
+            className="lesson-hero-progress-fill"
+            style={{ width: `${progressPct}%` }}
+          />
+        </div>
       </header>
 
       <section className="lesson-section">
@@ -99,22 +122,13 @@ export function Lesson() {
         <h2>See it in action</h2>
         <div className="examples">
           {lesson.examples.map((ex, i) => (
-            <div key={i} className="example">
-              <div className="example-head">
-                <div className="example-caption">{ex.caption}</div>
-                {ex.tryIt && (
-                  <button
-                    type="button"
-                    className="try-it"
-                    onClick={() => loadExample(ex.tryIt!)}
-                  >
-                    Try this in the editor →
-                  </button>
-                )}
-              </div>
-              <pre className="lesson-codeblock"><code>{ex.code}</code></pre>
-              {ex.note && <div className="example-note">{ex.note}</div>}
-            </div>
+            <ExamplePreview
+              key={i}
+              example={ex}
+              fileTypes={fileTypes}
+              runtime={track.runtime}
+              onTryIt={ex.tryIt ? () => loadExample(ex.tryIt!) : undefined}
+            />
           ))}
         </div>
       </section>
@@ -164,7 +178,12 @@ export function Lesson() {
             {track.runtime === "python" ? (
               <PythonRunner code={files.python ?? ""} runKey={runKey} />
             ) : (
-              <WebPreview files={files} hasJs={hasJs} runKey={runKey} />
+              <WebPreview
+                files={files}
+                hasJs={hasJs}
+                hasVisual={hasVisual}
+                runKey={runKey}
+              />
             )}
           </div>
         </div>
@@ -189,13 +208,21 @@ export function Lesson() {
         )}
 
         <div className="finish-row">
-          <button
-            className="btn primary"
-            onClick={finish}
-            disabled={completed}
-          >
-            {completed ? "Lesson complete" : "Mark lesson done"}
-          </button>
+          {completed ? (
+            <div className="finish-done">
+              <span className="finish-done-emoji" aria-hidden="true">🎉</span>
+              <div>
+                <strong>Lesson complete — nice work!</strong>
+                <div className="finish-done-sub">
+                  You finished lesson {lesson.level} of {totalLessons}.
+                </div>
+              </div>
+            </div>
+          ) : (
+            <button className="btn finish-btn" onClick={finish}>
+              🚀 I did it! Mark complete
+            </button>
+          )}
         </div>
       </section>
     </article>

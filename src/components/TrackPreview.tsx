@@ -23,41 +23,244 @@ export function TrackPreview({ trackId }: Props) {
 }
 
 /* -----------------------------------------------------------------
-   HTML — render real HTML in a sandboxed iframe
+   HTML — cycle through real-world HTML page examples in an iframe
    ----------------------------------------------------------------- */
 
+const HTML_BASE_STYLE = `
+  * { box-sizing: border-box; }
+  body { font: 14px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; color: #1d1b2e; margin: 0; padding: 20px; background: #fff; }
+  h1, h2, h3 { margin: 0 0 8px; line-height: 1.2; }
+  p { margin: 0 0 10px; }
+  ul, ol { margin: 0 0 10px; padding-left: 22px; }
+  li { margin-bottom: 4px; }
+  a { color: #6a5cff; }
+  img { max-width: 100%; display: block; border-radius: 8px; }
+  button { font: inherit; cursor: pointer; }
+`;
+
+interface HtmlDemo {
+  name: string;
+  emoji: string;
+  body: string;
+  extraStyle?: string;
+}
+
+const HTML_DEMOS: HtmlDemo[] = [
+  {
+    name: "Profile card",
+    emoji: "👤",
+    extraStyle: `
+      body { background: linear-gradient(135deg, #ffe5d9 0%, #ffd6e0 100%); padding: 24px; }
+      .card { background: #fff; border-radius: 16px; padding: 22px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); max-width: 360px; margin: 0 auto; }
+      .avatar { width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, #ff7a59, #ff5470); display: flex; align-items: center; justify-content: center; font-size: 36px; margin-bottom: 12px; }
+      h1 { font-size: 22px; }
+      .tag { display: inline-block; background: #fff0e8; color: #ff7a59; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; margin-right: 4px; margin-top: 2px; }
+      .links a { display: inline-block; margin-right: 10px; text-decoration: none; font-weight: 600; font-size: 13px; }
+    `,
+    body: `<div class="card">
+  <div class="avatar">🦊</div>
+  <h1>Alex the Builder</h1>
+  <p>11 years old &middot; Learning to code 🚀</p>
+  <p>I love making games and drawing pixel art!</p>
+  <div>
+    <span class="tag">🎮 games</span>
+    <span class="tag">🎨 art</span>
+    <span class="tag">🐕 dogs</span>
+  </div>
+  <p class="links" style="margin-top:14px;">
+    <a href="#">My projects →</a>
+    <a href="#">Say hi →</a>
+  </p>
+</div>`
+  },
+  {
+    name: "Recipe page",
+    emoji: "🍪",
+    extraStyle: `
+      body { background: #fffaf0; padding: 24px; }
+      .recipe { max-width: 420px; margin: 0 auto; }
+      .hero { font-size: 64px; text-align: center; padding: 18px; background: #ffe8d6; border-radius: 14px; margin-bottom: 14px; }
+      h1 { font-size: 24px; color: #6b4423; }
+      h2 { font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; color: #b08968; margin-top: 14px; }
+      .meta { color: #8b6f55; font-size: 13px; margin-bottom: 14px; }
+      ol li::marker { color: #ff7a59; font-weight: 700; }
+    `,
+    body: `<div class="recipe">
+  <div class="hero">🍪</div>
+  <h1>Chocolate Chip Cookies</h1>
+  <p class="meta">⏱️ 25 min &middot; 👨‍🍳 easy &middot; 🍪 makes 12</p>
+
+  <h2>Ingredients</h2>
+  <ul>
+    <li>1 cup butter</li>
+    <li>¾ cup brown sugar</li>
+    <li>2 eggs</li>
+    <li>2 cups flour</li>
+    <li>1 cup chocolate chips 🍫</li>
+  </ul>
+
+  <h2>Steps</h2>
+  <ol>
+    <li>Mix butter and sugar.</li>
+    <li>Add eggs and stir.</li>
+    <li>Mix in flour, then chocolate chips.</li>
+    <li>Bake at 350°F for 12 minutes.</li>
+  </ol>
+</div>`
+  },
+  {
+    name: "Game character sheet",
+    emoji: "🎮",
+    extraStyle: `
+      body { background: #0f172a; color: #e2e8f0; padding: 24px; font-family: "Courier New", ui-monospace, monospace; }
+      .sheet { max-width: 420px; margin: 0 auto; border: 2px solid #6a5cff; border-radius: 12px; padding: 20px; background: linear-gradient(135deg, #1e293b 0%, #312e81 100%); }
+      h1 { color: #fbbf24; text-shadow: 0 0 12px rgba(251,191,36,0.5); font-size: 24px; }
+      h2 { color: #6a5cff; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; margin-top: 14px; border-bottom: 1px solid #6a5cff; padding-bottom: 4px; }
+      .stat { display: flex; justify-content: space-between; padding: 4px 0; font-size: 14px; }
+      .stat strong { color: #4ade80; }
+      .bar { height: 8px; background: #334155; border-radius: 4px; overflow: hidden; margin: 4px 0; }
+      .bar-fill { height: 100%; background: linear-gradient(90deg, #ef4444, #fbbf24, #4ade80); }
+      ul { list-style: none; padding-left: 0; }
+      li::before { content: "⚔️ "; }
+    `,
+    body: `<div class="sheet">
+  <h1>⚡ Zara the Wizard</h1>
+  <p>Level 7 &middot; Fire Mage</p>
+
+  <h2>Health</h2>
+  <div class="bar"><div class="bar-fill" style="width:78%"></div></div>
+  <p style="font-size:12px;margin:0;">78 / 100 HP</p>
+
+  <h2>Stats</h2>
+  <div class="stat"><span>Strength</span><strong>14</strong></div>
+  <div class="stat"><span>Magic</span><strong>22</strong></div>
+  <div class="stat"><span>Speed</span><strong>17</strong></div>
+
+  <h2>Abilities</h2>
+  <ul>
+    <li>Fireball</li>
+    <li>Lightning Strike</li>
+    <li>Healing Spell</li>
+  </ul>
+</div>`
+  },
+  {
+    name: "Event poster",
+    emoji: "🎉",
+    extraStyle: `
+      body { background: #1d1b2e; padding: 0; }
+      .poster { max-width: 380px; margin: 0 auto; padding: 28px 24px; background: linear-gradient(160deg, #ff7a59 0%, #f783ac 60%, #6a5cff 100%); color: #fff; min-height: 100%; }
+      .badge { display: inline-block; background: #fff; color: #1d1b2e; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; padding: 4px 10px; border-radius: 999px; }
+      h1 { font-size: 38px; line-height: 1; margin: 14px 0; text-shadow: 0 4px 14px rgba(0,0,0,0.25); }
+      h2 { font-size: 16px; opacity: 0.95; }
+      .info { background: rgba(255,255,255,0.18); backdrop-filter: blur(8px); border-radius: 12px; padding: 14px; margin: 14px 0; }
+      .info p { margin: 4px 0; font-size: 14px; }
+      .cta { display: inline-block; background: #fff; color: #ff5470; font-weight: 700; padding: 12px 22px; border-radius: 999px; text-decoration: none; margin-top: 8px; box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
+    `,
+    body: `<div class="poster">
+  <span class="badge">🎟️ FRIDAY NIGHT</span>
+  <h1>SUMMER<br/>JAM '26</h1>
+  <h2>The biggest party of the year! 🎶</h2>
+
+  <div class="info">
+    <p>📅 <strong>July 19, 2026</strong></p>
+    <p>📍 Riverside Park</p>
+    <p>🎤 Live music + food trucks</p>
+    <p>🎁 Free for kids under 12</p>
+  </div>
+
+  <a class="cta" href="#">Get tickets →</a>
+</div>`
+  },
+  {
+    name: "News article",
+    emoji: "📰",
+    extraStyle: `
+      body { background: #fafaf7; padding: 24px; font-family: Georgia, serif; }
+      .article { max-width: 460px; margin: 0 auto; }
+      .kicker { font-family: system-ui, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #ff7a59; }
+      h1 { font-size: 26px; line-height: 1.2; margin: 6px 0 8px; }
+      .byline { font-family: system-ui, sans-serif; font-size: 12px; color: #6c6b7a; margin-bottom: 14px; }
+      .hero-img { height: 140px; border-radius: 10px; background: linear-gradient(135deg, #4dabf7 0%, #69db7c 100%); display: flex; align-items: center; justify-content: center; font-size: 64px; margin-bottom: 14px; }
+      p { font-size: 15px; line-height: 1.65; }
+      blockquote { border-left: 3px solid #ff7a59; padding-left: 14px; margin: 14px 0; font-style: italic; color: #3b3a4a; }
+    `,
+    body: `<article class="article">
+  <div class="kicker">🔬 Science</div>
+  <h1>Kids Discover New Way to Make Robots Smarter</h1>
+  <p class="byline">By Sam Reporter &middot; May 9, 2026</p>
+
+  <div class="hero-img">🤖</div>
+
+  <p>A team of <strong>fifth graders</strong> from Lincoln Elementary built a robot that can learn to navigate mazes <em>three times faster</em> than older designs.</p>
+
+  <blockquote>"We just kept asking 'what if?' until something worked!" — Maya, age 11</blockquote>
+
+  <p>The project will be presented at the science fair next month.</p>
+</article>`
+  }
+];
+
 function HtmlPreview() {
-  const srcDoc = `<!doctype html>
+  const [idx, setIdx] = useState(0);
+  const [styled, setStyled] = useState(true);
+
+  useEffect(() => {
+    if (!styled) return;
+    const t = setInterval(() => setIdx((i) => (i + 1) % HTML_DEMOS.length), 4500);
+    return () => clearInterval(t);
+  }, [styled]);
+
+  const demo = HTML_DEMOS[idx];
+
+  const srcDoc = useMemo(
+    () => `<!doctype html>
 <html>
 <head>
-<style>
-  body { font: 15px/1.55 system-ui, -apple-system, sans-serif; color: #1d1b2e; margin: 0; padding: 18px; background: #fff; }
-  h1 { font-size: 22px; margin: 0 0 8px; }
-  p  { margin: 0 0 10px; color: #3b3a4a; }
-  ul { margin: 8px 0 0; padding-left: 20px; }
-  li { margin-bottom: 4px; }
-  a  { color: #6a5cff; }
-</style>
+${styled ? `<style>${HTML_BASE_STYLE}${demo.extraStyle ?? ""}</style>` : ""}
 </head>
 <body>
-  <h1>Hello, world!</h1>
-  <p>This little page is built from <strong>HTML tags</strong>.</p>
-  <ul>
-    <li>Headings give pages structure</li>
-    <li>Paragraphs hold the words</li>
-    <li>Lists, links, and images add more</li>
-  </ul>
-  <p><a href="#">A link</a> &middot; an image &rarr; <span style="display:inline-block;width:14px;height:14px;background:#ff7a59;border-radius:3px;vertical-align:-2px"></span></p>
+${demo.body}
 </body>
-</html>`;
+</html>`,
+    [demo, styled]
+  );
+
   return (
-    <PreviewShell label="Live HTML preview">
+    <PreviewShell label={`Live HTML — ${demo.emoji} ${demo.name}`}>
+      <div className="tp-html-toolbar">
+        <button
+          type="button"
+          className={`tp-html-toggle ${styled ? "" : "raw"}`}
+          onClick={() => setStyled((s) => !s)}
+        >
+          {styled ? "👀 See raw HTML" : "🎨 Make it pretty"}
+        </button>
+        {!styled && (
+          <span className="tp-html-hint">
+            ← this is what HTML looks like by itself. CSS adds the magic ✨
+          </span>
+        )}
+      </div>
       <iframe
-        title="HTML preview"
+        key={`${idx}-${styled}`}
+        title={`HTML preview — ${demo.name}`}
         srcDoc={srcDoc}
         sandbox=""
-        className="tp-frame"
+        className="tp-frame tp-html-frame"
       />
+      <div className="tp-css-dots">
+        {HTML_DEMOS.map((d, i) => (
+          <button
+            key={d.name}
+            type="button"
+            className={`tp-dot ${i === idx ? "on" : ""}`}
+            onClick={() => setIdx(i)}
+            aria-label={`Show ${d.name}`}
+            title={d.name}
+          />
+        ))}
+      </div>
     </PreviewShell>
   );
 }
