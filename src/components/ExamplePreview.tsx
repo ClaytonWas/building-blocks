@@ -113,18 +113,23 @@ export function ExamplePreview({ example, fileTypes, runtime, onTryIt }: Props) 
 
         {previewFiles && (
           <div className="example-preview-pane">
-            <div className="example-pane-label">Live preview</div>
+            <div className="example-pane-label">
+              {hasVisual ? "Live preview" : "Console output"}
+            </div>
             <div className="example-preview-stage">
-              {hasVisual && (
-                <iframe
-                  title={example.caption}
-                  srcDoc={srcDoc}
-                  sandbox="allow-scripts"
-                  className="example-preview-frame"
-                />
-              )}
+              <iframe
+                title={example.caption}
+                srcDoc={srcDoc}
+                sandbox="allow-scripts"
+                className={
+                  hasVisual ? "example-preview-frame" : "example-preview-frame-hidden"
+                }
+                aria-hidden={hasVisual ? undefined : true}
+              />
               {hasJs && (
-                <div className="example-preview-console">
+                <div
+                  className={`example-preview-console ${hasVisual ? "" : "fill"}`}
+                >
                   {logs.length === 0 ? (
                     <div className="console-empty">
                       {hasVisual ? "Console output appears here." : "Running…"}

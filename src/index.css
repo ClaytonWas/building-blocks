@@ -39,6 +39,7 @@
   --w-prose: 68ch;
   --w-content: 760px;
   --w-wide: 1080px;
+  --page-w: 1600px;
 
   font-family: var(--sans);
   font-size: 16px;
