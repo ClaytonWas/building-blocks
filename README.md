@@ -1,8 +1,9 @@
 # Building Blocks
 
-Interactive coding lessons for I/S students (intermediate/senior, roughly grades 4–8). Six tracks — HTML, CSS, JavaScript, a Web combo, Python, and AI fundamentals — each with runnable code playgrounds and a tabbed editor with live preview. Everything runs client-side; progress and code drafts live in `localStorage`.
+Interactive coding lessons for intermediate/senior students, roughly grades 4–8.  
 
-The goal is to demonstrate the platform across all six tracks and make adding more lessons cheap.
+Each with runnable code playgrounds and a tabbed editor with live preview. Everything runs client-side; progress and code drafts live in `localStorage`.
+
 
 ## Run it
 
@@ -31,14 +32,14 @@ No backend, no auth, no analytics, no environment variables. The only third-part
 
 ## Curriculum
 
-| Track | Lessons | Notes |
-|---|---|---|
-| HTML | 4 | Tags, lists, forms |
-| CSS | 3 | Box model, hover, layout |
-| JavaScript | 8 | Variables through functions |
-| Web combo | 2 | HTML + CSS + JS together |
-| Python | 7 | Variables through functions, runs in-browser via Pyodide |
-| AI & Transformers | 6 | Tokenizers, embeddings, single neuron, X-vs-O network, MobileNet image classifier |
+| Track | Notes |
+|---|---|
+| HTML | Tags, lists, forms |
+| CSS | Box model, hover, layout |
+| JavaScript | Variables through functions |
+| Web combo | HTML + CSS + JS together |
+| Python | Variables through functions, runs in-browser via Pyodide |
+| AI & Transformers | Tokenizers, embeddings, single neuron, X-vs-O network, MobileNet image classifier |
 
 The track and lesson registry is [src/data/curriculum.ts](src/data/curriculum.ts). Adding content is a one-file change plus an entry in that registry.
 
@@ -98,7 +99,3 @@ The `Lesson` shape is in [src/types.ts](src/types.ts). Existing files in [src/da
 - The AI track is conceptual. It teaches what neurons, embeddings, and a tiny classifier do; it is not a practical ML toolkit.
 - The first Python lesson on a fresh browser pauses for a few seconds to download Pyodide. Subsequent runs are instant.
 - Some pre-existing lessons reference playground kinds (`mininet`, `neuron`, `sampling`, `liveClassifier`, etc.) that are now wired up. If you write a lesson with a kind that isn't in [src/components/Playground.tsx](src/components/Playground.tsx), the `Play with it` section will silently render nothing.
-
-## License
-
-MIT — see `LICENSE`. (If `LICENSE` is missing, treat the project as MIT and add the file before redistribution.)
